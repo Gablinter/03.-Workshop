@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
         const password = req.body.password;
         const isValid = await bcrypt.compareSync(password, usersPassword)
         if (isValid) {
-            
+
 
             const token = await jwt.sign(payload, SECRET, { expiresIn: "3d" });
 
@@ -60,6 +60,13 @@ router.post('/login', async (req, res) => {
             res.send("<script>alert(`Incorrect username or password`)</script >");
         }
     }
+})
+
+
+router.get('/logout', async (req, res) => {
+    await res.clearCookie('auth');
+    console.log(`Sucessfully logged out`);
+    res.redirect('/')
 })
 
 module.exports = router;
